@@ -84,10 +84,10 @@ fabric-conquest-tna:
 	@$(DIR)/p4src/tna/build.sh fabric-conquest "-DWITH_CONQUEST"
 
 fabric-upf-conquest-tna:
-	@$(DIR)/p4src/build.sh fabric-upf-conquest "-DWITH_UPF -DWITH_CONQUEST"
+	@$(DIR)/p4src/tna/build.sh fabric-upf-conquest "-DWITH_UPF -DWITH_CONQUEST"
 
 fabric-upf-conquest-int-tna:
-	@$(DIR)/p4src/build.sh fabric-upf-conquest-int "-DWITH_UPF -DWITH_CONQUEST -DWITH_INT"
+	@$(DIR)/p4src/tna/build.sh fabric-upf-conquest-int "-DWITH_UPF -DWITH_CONQUEST -DWITH_INT"
 
 
 constants:

@@ -178,7 +178,8 @@ enum bit<8> BridgedMdType_t {
 enum bit<3> FabricMirrorType_t {
     INVALID = 0,
     INT_REPORT = 1,
-    PACKET_IN = 2
+    PACKET_IN = 2,
+    CONQ_REPORT = 3
 }
 
 const MirrorId_t PACKET_IN_MIRROR_SESSION_ID = 0x1FF;
