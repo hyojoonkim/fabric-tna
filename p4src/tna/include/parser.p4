@@ -10,6 +10,10 @@
 #ifdef WITH_INT
 #include "tna/include/control/int_parser.p4"
 #endif // WITH_INT
+#ifdef WITH_CONQUEST
+#include "control/conquest_mirror_parser.p4"
+#endif // WITH_CONQUEST
+
 
 parser FabricIngressParser (packet_in  packet,
     /* Fabric.p4 */
@@ -382,7 +386,7 @@ parser FabricEgressParser (packet_in packet,
     out fabric_egress_metadata_t fabric_md,
     /* TNA */
     out egress_intrinsic_metadata_t eg_intr_md) {
-
+    // TODO: joon MISSING conquest_mirror_parser routine. and all parser routines.
     state start {
         packet.extract(eg_intr_md);
         fabric_md.cpu_port = 0;
@@ -396,6 +400,9 @@ parser FabricEgressParser (packet_in packet,
             (0, BridgedMdType_t.INT_INGRESS_DROP, _): parse_int_report;
             (0, BridgedMdType_t.EGRESS_MIRROR, FabricMirrorType_t.INT_REPORT): parse_int_report;
 #endif // WITH_INT
+#ifdef WITH_CONQUEST
+            (0, BridgedMdType_t.EGRESS_MIRROR, FabricMirrorType_t.CONQ_REPORT): parse_conq_report_mirror; 
+#endif // WITH_CONQUEST. TODO: check if 0 is right
             default: reject;
         }
     }
@@ -464,6 +471,14 @@ parser FabricEgressParser (packet_in packet,
         transition accept;
     }
 #endif // WITH_INT
+
+#ifdef WITH_CONQUEST
+    state parse_conq_report_mirror {
+        ConqReportMirrorParser.apply(packet, hdr, fabric_md, eg_intr_md);
+        transition accept;
+    }
+#endif // WITH_CONQUEST
+
 
     state check_ethernet {
         fake_ethernet_t tmp = packet.lookahead<fake_ethernet_t>();
@@ -560,6 +575,15 @@ control FabricEgressMirror(
                                                fabric_md.int_report_md);
         }
 #endif // WITH_INT
+#ifdef WITH_CONQUEST
+#ifdef WITH_INT
+        else
+#endif // WITH_INT
+        if (eg_intr_md_for_dprsr.mirror_type == (bit<3>)FabricMirrorType_t.CONQ_REPORT) {
+            mirror.emit<conq_mirror_metadata_t>(fabric_md.conq_mirror_md.mirror_session_id,
+                                               fabric_md.conq_mirror_md);
+        }
+#endif // WITH_CONQUEST
     }
 }
 
@@ -652,6 +676,9 @@ control FabricEgressDeparser(packet_out packet,
         packet.emit(hdr.inner_vlan_tag);
 #endif // WITH_XCONNECT || WITH_DOUBLE_VLAN_TERMINATION
         packet.emit(hdr.eth_type);
+#ifdef WITH_CONQUEST
+        packet.emit(hdr.conquest_report);
+#endif // WITH_CONQUEST
         packet.emit(hdr.mpls);
 #ifdef WITH_UPF
         packet.emit(hdr.outer_ipv4);
