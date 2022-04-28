@@ -6,7 +6,7 @@
 
 parser ConqReportMirrorParser (packet_in packet,
     /* Fabric.p4 */
-    out parsed_headers_t hdr,
+    out egress_headers_t hdr,
     out fabric_egress_metadata_t fabric_md,
     /* TNA */
     out egress_intrinsic_metadata_t eg_intr_md) {

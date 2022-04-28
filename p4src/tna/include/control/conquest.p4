@@ -19,7 +19,7 @@ const ip_protocol_t IP_PROTOCOLS_UDP = 17;
 
 control ConQuestEgress(
     /* Fabric.p4 */
-    inout parsed_headers_t hdr,
+    inout egress_headers_t hdr,
     inout fabric_egress_metadata_t eg_md,
     /* TNA */
     in    egress_intrinsic_metadata_t                  eg_intr_md,

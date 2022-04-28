@@ -80,6 +80,16 @@ fabric-upf-int-tna:
 fabric-upf-int-v1model:
 	@$(DIR)/p4src/v1model/build.sh fabric-upf-int "-DWITH_UPF -DWITH_INT"
 
+fabric-conquest-tna:
+	@$(DIR)/p4src/tna/build.sh fabric-conquest "-DWITH_CONQUEST"
+
+fabric-upf-conquest-tna:
+	@$(DIR)/p4src/build.sh fabric-upf-conquest "-DWITH_UPF -DWITH_CONQUEST"
+
+fabric-upf-conquest-int-tna:
+	@$(DIR)/p4src/build.sh fabric-upf-conquest-int "-DWITH_UPF -DWITH_CONQUEST -DWITH_INT"
+
+
 constants:
 	docker run -v $(DIR):$(DIR) -w $(DIR) --rm --user $(UID) \
 		--entrypoint ./util/gen-p4-constants.py $(TESTER_DOCKER_IMG) \
