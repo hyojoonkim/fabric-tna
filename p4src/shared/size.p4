@@ -37,7 +37,8 @@
 #define INT_QUEUE_REPORT_TABLE_SIZE 32 * 4
 
 // Constants for the UPF control block.
-#define NUM_UES 100000
+//#define NUM_UES 100000
+#define NUM_UES 1000
 // We expect between 4 and 8 tunnels per UE.
 #define MAX_GTP_TUNNELS_PER_UE 1
 #define NUM_GTP_TUNNELS (NUM_UES * MAX_GTP_TUNNELS_PER_UE)
@@ -46,10 +47,12 @@
 #define MAX_UPF_COUNTERS 4096
 
 #define APP_METER_IDX_WIDTH 15
-#define MAX_APP_METERS 20000
+//#define MAX_APP_METERS 20000
+#define MAX_APP_METERS 200
 
 #define SESSION_METER_IDX_WIDTH 15
-#define MAX_SESSION_METERS 20000
+//#define MAX_SESSION_METERS 20000
+#define MAX_SESSION_METERS 200
 
 #define NUM_UPF_INTERFACES 64
 #define NUM_QOS_CLASSES 128
