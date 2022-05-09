@@ -29,7 +29,7 @@ PIPECONF_APP_NAME := org.stratumproject.fabric-tna
 PIPECONF_OAR_FILE := $(DIR)/target/fabric-tna-1.2.0-SNAPSHOT.oar
 
 # Profiles to build by default (all)
-PROFILES ?= fabric fabric-upf fabric-int fabric-upf-int
+PROFILES ?= fabric fabric-upf fabric-int fabric-upf-int fabric-upf-conquest
 
 deps:
 	docker pull $(SDE_TM_DOCKER_IMG)
@@ -48,6 +48,7 @@ fabric: fabric-v1model fabric-tna
 fabric-int: fabric-int-v1model fabric-int-tna
 fabric-upf: fabric-upf-v1model fabric-upf-tna
 fabric-upf-int: fabric-upf-int-v1model fabric-upf-int-tna
+fabric-upf-conquest: fabric-upf-conquest-tna
 
 fabric-tna:
 	@$(DIR)/p4src/tna/build.sh fabric ""

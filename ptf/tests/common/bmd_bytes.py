@@ -7,7 +7,9 @@ if profile_name == "fabric":
 elif profile_name == "fabric-int":
     BMD_BYTES = 33
 elif profile_name == "fabric-upf":
-    BMD_BYTES = 32
+    BMD_BYTES = 31
+elif profile_name == "fabric-upf-conquest":
+     BMD_BYTES = 31
 elif profile_name == "fabric-upf-int":
     BMD_BYTES = 39
 else:
