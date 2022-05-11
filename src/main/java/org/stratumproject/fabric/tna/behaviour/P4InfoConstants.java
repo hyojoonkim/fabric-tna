@@ -147,8 +147,8 @@ public final class P4InfoConstants {
             PiMatchFieldId.of("vlan_is_valid");
     public static final int HDR_VLAN_IS_VALID_BITWIDTH = 1;
     // Table IDs
-    public static final PiTableId FABRIC_EGRESS_DSCP_REWRITER_REWRITER =
-            PiTableId.of("FabricEgress.dscp_rewriter.rewriter");
+    //public static final PiTableId FABRIC_EGRESS_DSCP_REWRITER_REWRITER =
+    //        PiTableId.of("FabricEgress.dscp_rewriter.rewriter");
     public static final PiTableId FABRIC_EGRESS_EGRESS_NEXT_EGRESS_VLAN =
             PiTableId.of("FabricEgress.egress_next.egress_vlan");
     public static final PiTableId FABRIC_EGRESS_INT_EGRESS_CONFIG =
@@ -250,10 +250,10 @@ public final class P4InfoConstants {
     public static final PiCounterId FABRIC_INGRESS_UPF_RECIRC_STATS =
             PiCounterId.of("FabricIngress.upf.recirc_stats");
     // Action IDs
-    public static final PiActionId FABRIC_EGRESS_DSCP_REWRITER_CLEAR =
-            PiActionId.of("FabricEgress.dscp_rewriter.clear");
-    public static final PiActionId FABRIC_EGRESS_DSCP_REWRITER_REWRITE =
-            PiActionId.of("FabricEgress.dscp_rewriter.rewrite");
+    //public static final PiActionId FABRIC_EGRESS_DSCP_REWRITER_CLEAR =
+    //        PiActionId.of("FabricEgress.dscp_rewriter.clear");
+    //public static final PiActionId FABRIC_EGRESS_DSCP_REWRITER_REWRITE =
+    //        PiActionId.of("FabricEgress.dscp_rewriter.rewrite");
     public static final PiActionId FABRIC_EGRESS_EGRESS_NEXT_DROP =
             PiActionId.of("FabricEgress.egress_next.drop");
     public static final PiActionId FABRIC_EGRESS_EGRESS_NEXT_POP_VLAN =
