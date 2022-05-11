@@ -147,13 +147,8 @@ public class PipeconfLoader {
 
         // Add UpfProgrammable behaviour for UPF-enabled profiles.
         if (profile.endsWith(UPF_PROFILE_SUFFIX) ||
-                profile.endsWith(FULL_PROFILE_SUFFIX)) {
-            builder.addBehaviour(UpfProgrammable.class, FabricUpfProgrammable.class);
-        }
-
-        // Add UpfProgrammable behaviour for UPF-conquest-enabled profiles.
-        if (profile.endsWith(UPF_CONQUEST_PROFILE_SUFFIX) ||
-                profile.endsWith(FULL_PROFILE_SUFFIX)) {
+                profile.endsWith(FULL_PROFILE_SUFFIX) ||
+                profile.endsWith(UPF_CONQUEST_PROFILE_SUFFIX)) {
             builder.addBehaviour(UpfProgrammable.class, FabricUpfProgrammable.class);
         }
 
