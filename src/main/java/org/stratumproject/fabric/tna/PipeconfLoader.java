@@ -73,6 +73,7 @@ public class PipeconfLoader {
 
     private static final String INT_PROFILE_SUFFIX = "-int";
     private static final String UPF_PROFILE_SUFFIX = "-upf";
+    private static final String UPF_CONQUEST_PROFILE_SUFFIX = "-upf-conquest";
     private static final String FULL_PROFILE_SUFFIX = "-upf-int";
 
     @Activate
@@ -150,6 +151,11 @@ public class PipeconfLoader {
             builder.addBehaviour(UpfProgrammable.class, FabricUpfProgrammable.class);
         }
 
+        // Add UpfProgrammable behaviour for UPF-conquest-enabled profiles.
+        if (profile.endsWith(UPF_CONQUEST_PROFILE_SUFFIX) ||
+                profile.endsWith(FULL_PROFILE_SUFFIX)) {
+            builder.addBehaviour(UpfProgrammable.class, FabricUpfProgrammable.class);
+        }
 
         return builder.build();
     }
