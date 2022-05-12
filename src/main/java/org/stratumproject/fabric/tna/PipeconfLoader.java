@@ -73,6 +73,7 @@ public class PipeconfLoader {
 
     private static final String INT_PROFILE_SUFFIX = "-int";
     private static final String UPF_PROFILE_SUFFIX = "-upf";
+    private static final String CONQUEST_PROFILE_SUFFIX = "-conquest";
     private static final String UPF_CONQUEST_PROFILE_SUFFIX = "-upf-conquest";
     private static final String FULL_PROFILE_SUFFIX = "-upf-int";
 
