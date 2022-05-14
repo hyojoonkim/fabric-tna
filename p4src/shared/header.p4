@@ -287,6 +287,12 @@ struct int_metadata_t {
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.bmd_type")
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.mirror_type")
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.mirror_session_id")
+@pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_sip")
+@pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_dip")
+@pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_sport")
+@pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_dport")
+@pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_protocol")
+@pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_size_in_queue")
 header conq_mirror_metadata_t {
     BridgedMdType_t       bmd_type;
     @padding bit<5>       _pad0;
