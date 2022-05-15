@@ -28,6 +28,7 @@ from ptf import testutils
 from ptf.mask import Mask
 from qos_utils import QUEUE_ID_SYSTEM
 from scapy.contrib.gtp import GTP_U_Header, GTPPDUSessionContainer
+from scapy.fields import BitField, ByteField, IntField, ShortField
 from scapy.contrib.mpls import MPLS
 from scapy.layers.inet import ICMP, IP, TCP, UDP
 from scapy.layers.l2 import Dot1Q, Ether
@@ -35,6 +36,7 @@ from scapy.layers.ppp import PPP, PPPoE
 from scapy.layers.sctp import SCTP
 from scapy.layers.vxlan import VXLAN
 from scapy.packet import bind_layers
+from ipaddress import ip_address
 
 vlan_confs = {
     "tag->tag": [True, True],
@@ -320,6 +322,29 @@ STATS_EGRESS = "Egress"
 
 STATS_TABLE = "Fabric%s.stats.flows"
 STATS_ACTION = "Fabric%s.stats.count"
+
+
+
+CONQUEST_DEDUP_TIMEOUT = 0.5 # seconds
+ETHERTYPE_CONQUEST_REPORT = 0x9001
+
+class ConquestReport(Packet):
+    name = "ConQuest Report"
+    fields_desc = [
+            IntField("src_ip", 0),
+            IntField("dst_ip", 0),
+            ShortField("src_port", 0),
+            ShortField("dst_port", 0),
+            ByteField("protocol", 0),
+            IntField("flow_size_in_queue", 0)
+    ]
+
+bind_layers(Ether, ConquestReport, type=ETHERTYPE_CONQUEST_REPORT)
+bind_layers(ConquestReport, Ether)
+
+
+
+
 
 # Implements helper function for SCTP as PTF does not provide one.
 def simple_sctp_packet(
@@ -3543,6 +3568,139 @@ class UpfSimpleTest(IPv4UnicastTest, SlicingTest):
             pir=pir if pir > 0 else 1,
             pburst=pburst if pburst > 0 else 1,
         )
+
+
+
+class ConquestTest(UpfSimpleTest):
+    CONQ_REPORT_MIRROR_ID = 400
+
+    def set_up_report_mirrors(self):
+        self.add_clone_group(self.CONQ_REPORT_MIRROR_ID, [self.cpu_port])
+
+
+    def set_up_report_trigger(self):
+
+        for ecn in range(4):
+            # key bitwidths are 20, 18, 8, 2
+            match_keys = [
+#                            self.Range("snap_0",        stringify(0, 3),  stringify(0x0fffff, 3)),
+#                            self.Range("q_delay",       stringify(0, 3),  stringify(0x3ffff, 3)),
+#                            # self.Range("random_bits",   stringify(0, 1),  stringify(0xff, 1)),
+#                            self.Exact("ecn",           stringify(ecn, 1)),
+                            self.Range("snap_0",        stringify(0),  stringify(0x0fffff)),
+                            self.Range("q_delay",       stringify(0),  stringify(0x3ffff)),
+                            # self.Range("random_bits",   stringify(0, 1),  stringify(0xff, 1)),
+                            self.Exact("ecn",           stringify(ecn)),
+ 
+                        ]
+
+            self.send_request_add_entry_to_action(
+                    t_name      = "FabricEgress.conquest_egress.tb_per_flow_action",
+                    mk          = match_keys,
+                    a_name      = "FabricEgress.conquest_egress.trigger_report",
+                    params      = [],
+                    priority    = DEFAULT_PRIORITY)
+
+
+    def runReportTriggerTest(self, pkt, tagged1, tagged2, is_next_hop_spine):
+        test_start_time = time.time()
+        self.set_up_report_trigger()
+        self.set_up_report_mirrors()
+
+        dst_mac = HOST2_MAC
+
+        exp_pkt = pkt.copy()
+        exp_pkt[Ether].src = pkt[Ether].dst
+        exp_pkt[Ether].dst = dst_mac
+        if not is_next_hop_spine:
+            exp_pkt[IP].ttl = exp_pkt[IP].ttl - 1
+        else:
+            exp_pkt = pkt_add_mpls(exp_pkt, MPLS_LABEL_2, DEFAULT_MPLS_TTL)
+        if tagged2:
+            exp_pkt = pkt_add_vlan(exp_pkt, VLAN_ID_2)
+
+        self.runIPv4UnicastTest(
+            pkt=pkt,
+            dst_ipv4=pkt[IP].dst,
+            next_hop_mac=dst_mac,
+            prefix_len=32,
+            exp_pkt=exp_pkt,
+            tagged1=tagged1,
+            tagged2=tagged2,
+            is_next_hop_spine=is_next_hop_spine,
+        )
+
+        pkt_in = Ether(self.get_packet_in().payload)
+        self.verifyInnermostHeaderReported(pkt, pkt_in)
+
+        # wait for dedup protection to end, so the next test doesn't fail
+        time.sleep(max(0, CONQUEST_DEDUP_TIMEOUT - (time.time() - test_start_time)))
+
+
+    def runReportUplinkTest(self, pkt, tagged1, tagged2, is_next_hop_spine):
+        test_start_time = time.time()
+        self.set_up_report_trigger()
+        self.set_up_report_mirrors()
+
+        self.runUplinkTest(pkt, tagged1, tagged2, 0, is_next_hop_spine)
+
+        pkt_in = Ether(self.get_packet_in().payload)
+        self.verifyInnermostHeaderReported(pkt, pkt_in)
+        # wait for dedup protection to end, so the next test doesn't fail
+        time.sleep(max(0, CONQUEST_DEDUP_TIMEOUT - (time.time() - test_start_time)))
+
+
+    def runReportDownlinkTest(self, pkt, tagged1, tagged2, is_next_hop_spine):
+        test_start_time = time.time()
+        self.set_up_report_trigger()
+        self.set_up_report_mirrors()
+
+        self.runDownlinkTest(pkt, tagged1, tagged2, 0, is_next_hop_spine)
+
+        pkt_in = Ether(self.get_packet_in().payload)
+        self.verifyInnermostHeaderReported(pkt, pkt_in)
+        # wait for dedup protection to end, so the next test doesn't fail
+        time.sleep(max(0, CONQUEST_DEDUP_TIMEOUT - (time.time() - test_start_time)))
+
+
+    def verifyInnermostHeaderReported(self, sent_pkt, report_pkt):
+        if (ConquestReport not in report_pkt):
+            fail("Received CPU packet is not a ConQuest report")
+        report_hdr = report_pkt[ConquestReport]
+        report_sip = ip_address(report_hdr.src_ip)
+        report_dip = ip_address(report_hdr.dst_ip)
+        report_sport = report_hdr.src_port
+        report_dport = report_hdr.dst_port
+        report_proto = report_hdr.protocol
+
+        innermost_pkt = sent_pkt
+        if GTP_U_Header in sent_pkt:
+            innermost_pkt = pkt_in[GTP_U_Header].payload
+        exp_sip = ip_address(innermost_pkt[IP].src)
+        exp_dip = ip_address(innermost_pkt[IP].dst)
+        exp_sport = 0
+        exp_dport = 0
+        if UDP in innermost_pkt:
+            exp_sport = innermost_pkt[UDP].sport
+            exp_dport = innermost_pkt[UDP].dport
+        elif TCP in innermost_pkt:
+            exp_sport = innermost_pkt[TCP].sport
+            exp_dport = innermost_pkt[TCP].dport
+        exp_proto = innermost_pkt[IP].proto
+
+
+        def failIfDifferent(field_name, exp_field, report_field):
+            if exp_field != report_field:
+                self.fail("Expected %s %s, report had %s"
+                        % (field_name, exp_field, report_field))
+
+
+        failIfDifferent("source IP", exp_sip, report_sip)
+        failIfDifferent("dest IP", exp_dip, report_dip)
+        failIfDifferent("source port", exp_sport, report_sport)
+        failIfDifferent("dest port", exp_dport, report_dport)
+        failIfDifferent("protocol", exp_proto, report_proto)
+
 
 
 class IntTest(IPv4UnicastTest):

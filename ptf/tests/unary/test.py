@@ -127,6 +127,93 @@ class FabricIPv4MulticastTest(IPv4MulticastTest):
         self.doRunTest(10, 11)
 
 
+
+@group("conquest")
+@group("upf")
+class FabricConquestUplinkTest(ConquestTest):
+    @autocleanup
+    def doRunTest(self, pkt, tagged1, tagged2, is_next_hop_spine):
+        self.runReportUplinkTest(pkt, tagged1, tagged2, is_next_hop_spine)
+
+    def runTest(self):
+        print("")
+        for vlan_conf, tagged in vlan_confs.items():
+            for pkt_type in ["tcp", "udp", "icmp"]:
+                for is_next_hop_spine in [False, True]:
+                    if is_next_hop_spine and tagged[1]:
+                        continue
+                    print(
+                        "Testing VLAN={}, pkt={}, is_next_hop_spine={}...".format(
+                            vlan_conf, pkt_type, is_next_hop_spine
+                        )
+                    )
+                    pkt = getattr(testutils, "simple_%s_packet" % pkt_type)(
+                        eth_src=HOST1_MAC,
+                        eth_dst=SWITCH_MAC,
+                        ip_src=HOST1_IPV4,
+                        ip_dst=HOST2_IPV4,
+                        pktlen=MIN_PKT_LEN,
+                    )
+                    self.doRunTest(pkt, tagged[0], tagged[1], is_next_hop_spine)
+
+
+@group("conquest")
+@group("upf")
+class FabricConquestDownlinkTest(ConquestTest):
+    @autocleanup
+    def doRunTest(self, pkt, tagged1, tagged2, is_next_hop_spine):
+        self.runReportDownlinkTest(pkt, tagged1, tagged2, is_next_hop_spine)
+
+    def runTest(self):
+        print("")
+        for vlan_conf, tagged in vlan_confs.items():
+            for pkt_type in ["tcp", "udp", "icmp"]:
+                for is_next_hop_spine in [False, True]:
+                    if is_next_hop_spine and tagged[1]:
+                        continue
+                    print(
+                        "Testing VLAN={}, pkt={}, is_next_hop_spine={}...".format(
+                            vlan_conf, pkt_type, is_next_hop_spine
+                        )
+                    )
+                    pkt = getattr(testutils, "simple_%s_packet" % pkt_type)(
+                        eth_src=HOST1_MAC,
+                        eth_dst=SWITCH_MAC,
+                        ip_src=HOST1_IPV4,
+                        ip_dst=UE1_IPV4,
+                        pktlen=MIN_PKT_LEN,
+                    )
+                    self.doRunTest(pkt, tagged[0], tagged[1], is_next_hop_spine)
+
+
+@group("conquest")
+class FabricConquestTest(ConquestTest):
+    @autocleanup
+    def doRunTest(self, pkt, tagged1, tagged2, is_next_hop_spine):
+        self.runReportTriggerTest(pkt, tagged1, tagged2, is_next_hop_spine)
+
+    def runTest(self):
+        print("")
+        for vlan_conf, tagged in vlan_confs.items():
+            for pkt_type in ["tcp", "udp", "icmp"]:
+                for is_next_hop_spine in [False, True]:
+                    if is_next_hop_spine and tagged[1]:
+                        continue
+                    print(
+                        "Testing VLAN={}, pkt={}, is_next_hop_spine={}...".format(
+                            vlan_conf, pkt_type, is_next_hop_spine
+                        )
+                    )
+                    pkt = getattr(testutils, "simple_%s_packet" % pkt_type)(
+                        eth_src=HOST1_MAC,
+                        eth_dst=SWITCH_MAC,
+                        ip_src=HOST1_IPV4,
+                        ip_dst=HOST2_IPV4,
+                        pktlen=MIN_PKT_LEN,
+                    )
+                    self.doRunTest(pkt, tagged[0], tagged[1], is_next_hop_spine)
+
+
 class FabricIPv4UnicastTest(IPv4UnicastTest):
     @tvsetup
     @autocleanup
