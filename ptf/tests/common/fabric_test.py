@@ -2987,6 +2987,8 @@ class UpfSimpleTest(IPv4UnicastTest, SlicingTest):
         meter_drop = app_max_bps == 0 or session_max_bps == 0
         upstream_mac = HOST2_MAC
 
+        self.add_clone_group(400, [self.cpu_port]) #joon
+
         gtp_pkt = pkt_add_gtp(
             ue_out_pkt,
             out_ipv4_src=S1U_ENB_IPV4,

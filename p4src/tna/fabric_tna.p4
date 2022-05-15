@@ -128,7 +128,7 @@ control FabricEgress (
 #ifdef WITH_CONQUEST
         conquest_egress.apply(hdr, fabric_md, eg_intr_md, eg_prsr_md, eg_dprsr_md, eg_oport_md);
 #endif // WITH_CONQUEST
-        //dscp_rewriter.apply(fabric_md, eg_intr_md, hdr);
+        dscp_rewriter.apply(fabric_md, eg_intr_md, hdr);
     }
 }
 

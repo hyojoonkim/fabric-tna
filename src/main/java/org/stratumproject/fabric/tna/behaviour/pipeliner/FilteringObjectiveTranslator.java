@@ -201,11 +201,11 @@ class FilteringObjectiveTranslator
             if (portType == PORT_TYPE_EDGE) {
                 // We need to make sure that traffic exiting an edge port doesn't
                 // carry the SD-Fabric DSCP field.
-                //resultBuilder.addFlowRule(buildEgressDscpRewriter(obj, inPortCriterion, true));
+                resultBuilder.addFlowRule(buildEgressDscpRewriter(obj, inPortCriterion, true));
             } else if (portType == PORT_TYPE_INFRA) {
                 // We need to make sure that traffic exiting an infra port carry
                 // SD-Fabric DSCP field.
-                //resultBuilder.addFlowRule(buildEgressDscpRewriter(obj, inPortCriterion, false));
+                resultBuilder.addFlowRule(buildEgressDscpRewriter(obj, inPortCriterion, false));
                 resultBuilder.addFlowRule(buildTrustDscpEntry(obj, inPortCriterion));
             }
         }
@@ -231,7 +231,6 @@ class FilteringObjectiveTranslator
                 selector, treatment, TRUST_DSCP_PRIORITY);
     }
 
-    /*
     private FlowRule buildEgressDscpRewriter(FilteringObjective obj, PortCriterion egPortCriterion, boolean clear)
             throws FabricPipelinerException {
         final PiCriterion outPortCriterion = PiCriterion.builder()
@@ -251,7 +250,6 @@ class FilteringObjectiveTranslator
                 obj, P4InfoConstants.FABRIC_EGRESS_DSCP_REWRITER_REWRITER,
                 selector, treatment, DSCP_REWRITER_PRIORITY);
     }
-    */
 
     private PiAction mapFilteringTreatment(TrafficTreatment treatment, PiTableId tableId, byte portType)
             throws PiInterpreterException {
