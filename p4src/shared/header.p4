@@ -572,7 +572,6 @@ struct egress_headers_t {
 #endif // WITH_UPF
     ipv4_t ipv4;
     ipv6_t ipv6;
-    tcp_t tcp; //joon
     udp_t udp;
 }
 

@@ -13,7 +13,6 @@
 
 typedef bit<8> ip_protocol_t;
 const ip_protocol_t IP_PROTOCOLS_ICMP = 1;
-const ip_protocol_t IP_PROTOCOLS_TCP = 6;
 const ip_protocol_t IP_PROTOCOLS_UDP = 17;
 
 
@@ -83,28 +82,12 @@ control ConQuestEgress(
         eg_md.cyclic_index = (bit<8>) reg_cleaning_index_rw.execute(0);
     }
     
-        Hash<bit<8>>(HashAlgorithm_t.CRC32) hash_0_TCP;  
         Hash<bit<8>>(HashAlgorithm_t.CRC32) hash_0_UDP;  
         Hash<bit<8>>(HashAlgorithm_t.CRC32) hash_0_Other;   
-        Hash<bit<8>>(HashAlgorithm_t.CRC32) hash_1_TCP;  
         Hash<bit<8>>(HashAlgorithm_t.CRC32) hash_1_UDP;  
         Hash<bit<8>>(HashAlgorithm_t.CRC32) hash_1_Other;   
       
-    @hidden
-    action calc_hashed_index_TCP(){
-        eg_md.hashed_index_row_0 = hash_0_TCP.get({
-           3w3, hdr.ipv4.src_addr,
-           4w13, hdr.ipv4.dst_addr,
-           5w5, hdr.tcp.sport,
-           6w39, hdr.tcp.dport
-        });
-        eg_md.hashed_index_row_1 = hash_1_TCP.get({
-           3w7, hdr.ipv4.src_addr,
-           3w6, hdr.ipv4.dst_addr,
-           6w29, hdr.tcp.sport,
-           3w4, hdr.tcp.dport
-        });
-    }
+
     @hidden
     action calc_hashed_index_UDP(){
            eg_md.hashed_index_row_0 = hash_0_UDP.get({
@@ -758,11 +741,6 @@ control ConQuestEgress(
     }
 
     @hidden
-    action generate_report_from_tcp() {
-        generate_report_common(hdr.tcp.sport, hdr.tcp.dport);
-    }
-    
-    @hidden
     action generate_report_from_udp() {
         generate_report_common(hdr.udp.sport, hdr.udp.dport);
     }
@@ -775,18 +753,15 @@ control ConQuestEgress(
     @hidden
     table report_generator {
         key = {
-            hdr.tcp.isValid(): exact;
             hdr.udp.isValid(): exact;
         }
         actions = {
-            generate_report_from_tcp;
             generate_report_from_udp;
             generate_report_from_unknown_l4;
         }
         const entries = {
-            (true,  false): generate_report_from_tcp();
-            (false, true): generate_report_from_udp();
-            (false, false): generate_report_from_unknown_l4();
+            (true): generate_report_from_udp();
+            (false): generate_report_from_unknown_l4();
         }
         size = 4;
     }
@@ -805,9 +780,7 @@ control ConQuestEgress(
         
         // Index for sketch cleaning and read/write
         calc_cyclic_index();
-        if (hdr.ipv4.protocol==IP_PROTOCOLS_TCP) {
-            calc_hashed_index_TCP();
-        } else if (hdr.ipv4.protocol==IP_PROTOCOLS_UDP) {
+        if (hdr.ipv4.protocol==IP_PROTOCOLS_UDP) {
             calc_hashed_index_UDP();
         } else {
             calc_hashed_index_Other();
@@ -848,10 +821,10 @@ control ConQuestEgress(
         
         // With flow size in queue, can check for bursty flow and add AQM.
         tb_per_flow_action.apply();
-        report_generator.apply(); //joon
-        //if (eg_md.send_conq_report && eg_md.dedup_is_new==1) {
-        //    report_generator.apply();
-        //}
+        //report_generator.apply(); //joon
+        if (eg_md.send_conq_report && eg_md.dedup_is_new==1) {
+            report_generator.apply();
+        }
     }
 }
 #endif // __CONQUEST__

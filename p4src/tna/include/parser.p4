@@ -689,7 +689,6 @@ control FabricEgressDeparser(packet_out packet,
 #endif // WITH_UPF
         packet.emit(hdr.ipv4);
         packet.emit(hdr.ipv6);
-        packet.emit(hdr.tcp);
         packet.emit(hdr.udp);
     }
 }

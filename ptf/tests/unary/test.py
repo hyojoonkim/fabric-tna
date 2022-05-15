@@ -138,7 +138,7 @@ class FabricConquestUplinkTest(ConquestTest):
     def runTest(self):
         print("")
         for vlan_conf, tagged in vlan_confs.items():
-            for pkt_type in ["tcp", "udp", "icmp"]:
+            for pkt_type in ["udp", "icmp"]:
                 for is_next_hop_spine in [False, True]:
                     if is_next_hop_spine and tagged[1]:
                         continue
@@ -167,7 +167,7 @@ class FabricConquestDownlinkTest(ConquestTest):
     def runTest(self):
         print("")
         for vlan_conf, tagged in vlan_confs.items():
-            for pkt_type in ["tcp", "udp", "icmp"]:
+            for pkt_type in ["udp", "icmp"]:
                 for is_next_hop_spine in [False, True]:
                     if is_next_hop_spine and tagged[1]:
                         continue
@@ -195,7 +195,7 @@ class FabricConquestTest(ConquestTest):
     def runTest(self):
         print("")
         for vlan_conf, tagged in vlan_confs.items():
-            for pkt_type in ["tcp", "udp", "icmp"]:
+            for pkt_type in ["udp", "icmp"]:
                 for is_next_hop_spine in [False, True]:
                     if is_next_hop_spine and tagged[1]:
                         continue
