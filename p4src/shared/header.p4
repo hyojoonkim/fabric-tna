@@ -287,6 +287,7 @@ struct int_metadata_t {
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.bmd_type")
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.mirror_type")
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.mirror_session_id")
+@pa_no_overlay("egress", "fabric_md.conq_mirror_md.ig_port")
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_sip")
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_dip")
 @pa_no_overlay("egress", "fabric_md.conq_mirror_md.flow_sport")
@@ -299,6 +300,8 @@ header conq_mirror_metadata_t {
     FabricMirrorType_t    mirror_type;
     @padding bit<6>       _pad1;
     MirrorId_t            mirror_session_id;
+    @padding bit<7>       _pad2;
+    PortId_t              ig_port;
     // 5-Tuple
     bit<32>               flow_sip;
     bit<32>               flow_dip;

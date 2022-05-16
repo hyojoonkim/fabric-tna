@@ -742,6 +742,7 @@ control ConQuestEgress(
         eg_md.conq_mirror_md.mirror_type = FabricMirrorType_t.CONQ_REPORT;
         eg_md.conq_mirror_md.bmd_type = BridgedMdType_t.EGRESS_MIRROR;
         eg_md.conq_mirror_md.mirror_session_id = CONQUEST_MIRROR_SESSION_ID;
+        eg_md.conq_mirror_md.ig_port = eg_md.bridged.base.ig_port;
         eg_md.conq_mirror_md.flow_sip       = hdr.ipv4.src_addr;
         eg_md.conq_mirror_md.flow_dip       = hdr.ipv4.dst_addr;
         eg_md.conq_mirror_md.flow_sport     = sport;
@@ -780,6 +781,10 @@ control ConQuestEgress(
     apply {
         //if (fabric_md.conq_mirror_md.isValid()) {
         if (eg_md.bridged.bmd_type == BridgedMdType_t.EGRESS_MIRROR) {
+            return;
+        }
+
+        if (!hdr.ipv4.isValid()) {
             return;
         }
 

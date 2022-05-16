@@ -933,6 +933,9 @@ class FabricTest(P4RuntimeTest):
         self.sdn_to_sdk_port[0xFFFFFF02] = 0x144  # Recirculate port for pipe 2
         self.sdn_to_sdk_port[0xFFFFFF03] = 0x1C4  # Recirculate port for pipe 3
 
+
+        self.add_clone_group(400, [self.cpu_port]) #joon
+
     def tearDown(self):
         self.reset_switch_info()
         self.reset_packet_in_mirror()
@@ -2987,7 +2990,6 @@ class UpfSimpleTest(IPv4UnicastTest, SlicingTest):
         meter_drop = app_max_bps == 0 or session_max_bps == 0
         upstream_mac = HOST2_MAC
 
-        self.add_clone_group(400, [self.cpu_port]) #joon
 
         gtp_pkt = pkt_add_gtp(
             ue_out_pkt,
