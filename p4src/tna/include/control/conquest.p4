@@ -749,6 +749,7 @@ control ConQuestEgress(
         eg_md.conq_mirror_md.mirror_type = FabricMirrorType_t.CONQ_REPORT;
         eg_md.conq_mirror_md.bmd_type = BridgedMdType_t.EGRESS_MIRROR;
         eg_md.conq_mirror_md.mirror_session_id = CONQUEST_MIRROR_SESSION_ID;
+        eg_md.conq_mirror_md.pktin_ingress_port = (FabricPortId_t) hdr.packet_in.ingress_port;
         eg_md.conq_mirror_md.flow_sip       = hdr.ipv4.src_addr;
         eg_md.conq_mirror_md.flow_dip       = hdr.ipv4.dst_addr;
         eg_md.conq_mirror_md.flow_sport     = sport;
@@ -854,10 +855,10 @@ control ConQuestEgress(
         
         // With flow size in queue, can check for bursty flow and add AQM.
         tb_per_flow_action.apply();
-        //report_generator.apply(); //joon
-        if (eg_md.send_conq_report && eg_md.dedup_is_new==1) {
-            report_generator.apply();
-        }
+        report_generator.apply(); //joon
+        //if (eg_md.send_conq_report && eg_md.dedup_is_new==1) {
+        //    report_generator.apply();
+        //}
     }
 }
 #endif // __CONQUEST__
