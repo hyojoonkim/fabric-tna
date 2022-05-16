@@ -798,6 +798,12 @@ control ConQuestEgress(
             return;
         }
 
+        if (!hdr.ipv4.isValid()) {
+            return;
+        }
+
+
+
         // Startup
         prep_epochs();
         prep_reads();
@@ -848,10 +854,10 @@ control ConQuestEgress(
         
         // With flow size in queue, can check for bursty flow and add AQM.
         tb_per_flow_action.apply();
-        report_generator.apply(); //joon
-        //if (eg_md.send_conq_report && eg_md.dedup_is_new==1) {
-        //    report_generator.apply();
-        //}
+        //report_generator.apply(); //joon
+        if (eg_md.send_conq_report && eg_md.dedup_is_new==1) {
+            report_generator.apply();
+        }
     }
 }
 #endif // __CONQUEST__
