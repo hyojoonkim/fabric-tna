@@ -300,8 +300,8 @@ header conq_mirror_metadata_t {
     FabricMirrorType_t    mirror_type;
     @padding bit<6>       _pad1;
     MirrorId_t            mirror_session_id;
-    FabricPortId_t        pktin_ingress_port;
     @padding bit<7>       pktin_pad0;
+    FabricPortId_t        pktin_ingress_port;
     // 5-Tuple
     bit<32>               flow_sip;
     bit<32>               flow_dip;
