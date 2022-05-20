@@ -89,7 +89,10 @@ control PacketIoEgress(inout egress_headers_t hdr,
         switch_info.apply();
         if (eg_intr_md.egress_port == fabric_md.cpu_port) {
             hdr.packet_in.setValid();
-            hdr.packet_in.ingress_port = (FabricPortId_t)fabric_md.bridged.base.ig_port;
+            //hdr.packet_in.ingress_port = (FabricPortId_t)fabric_md.bridged.base.ig_port;
+            if (fabric_md.conq_mirror_md.isValid()) {
+                hdr.packet_in.ingress_port = 1;
+            }
             hdr.fake_ethernet.setInvalid();
             // Straight to CPU. No need to process through the rest of the
             // egress pipe.

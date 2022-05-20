@@ -56,12 +56,12 @@ control ConQuestEgress(
     action prep_reads(){
                 eg_md.snap_0_row_0_read=0;
                 eg_md.snap_0_row_1_read=0;
-                eg_md.snap_1_row_0_read=0;
-                eg_md.snap_1_row_1_read=0;
-                eg_md.snap_2_row_0_read=0;
-                eg_md.snap_2_row_1_read=0;
-                eg_md.snap_3_row_0_read=0;
-                eg_md.snap_3_row_1_read=0;
+                //eg_md.snap_1_row_0_read=0;
+                //eg_md.snap_1_row_1_read=0;
+                //eg_md.snap_2_row_0_read=0;
+                //eg_md.snap_2_row_1_read=0;
+                //eg_md.snap_3_row_0_read=0;
+                //eg_md.snap_3_row_1_read=0;
     }
     
     Random< bit<8> >() rng;
@@ -162,83 +162,83 @@ control ConQuestEgress(
         }
     }
 
-    @hidden
-    action snap_1_select_index_hash(){
-            eg_md.snap_1_row_0_index=eg_md.cyclic_index;
-            eg_md.snap_1_row_1_index=eg_md.cyclic_index;
-    }
-    @hidden
-    action snap_1_select_index_cyclic(){
-            eg_md.snap_1_row_0_index=eg_md.hashed_index_row_0;
-            eg_md.snap_1_row_1_index=eg_md.hashed_index_row_1;
-    }
-    @hidden
-    table tb_snap_1_select_index {
-        key = {
-            eg_md.snap_epoch: exact;
-        }
-        actions = {
-            snap_1_select_index_hash;
-            snap_1_select_index_cyclic;
-        }
-        size = 2;
-        default_action = snap_1_select_index_hash();
-        const entries = {
-           1 : snap_1_select_index_cyclic();
-        }
-    }
-
-    @hidden
-    action snap_2_select_index_hash(){
-            eg_md.snap_2_row_0_index=eg_md.cyclic_index;
-            eg_md.snap_2_row_1_index=eg_md.cyclic_index;
-    }
-    @hidden
-    action snap_2_select_index_cyclic(){
-            eg_md.snap_2_row_0_index=eg_md.hashed_index_row_0;
-            eg_md.snap_2_row_1_index=eg_md.hashed_index_row_1;
-    }
-    @hidden
-    table tb_snap_2_select_index {
-        key = {
-            eg_md.snap_epoch: exact;
-        }
-        actions = {
-            snap_2_select_index_hash;
-            snap_2_select_index_cyclic;
-        }
-        size = 2;
-        default_action = snap_2_select_index_hash();
-        const entries = {
-           2 : snap_2_select_index_cyclic();
-        }
-    }
-
-    @hidden
-    action snap_3_select_index_hash(){
-            eg_md.snap_3_row_0_index=eg_md.cyclic_index;
-            eg_md.snap_3_row_1_index=eg_md.cyclic_index;
-    }
-    @hidden
-    action snap_3_select_index_cyclic(){
-            eg_md.snap_3_row_0_index=eg_md.hashed_index_row_0;
-            eg_md.snap_3_row_1_index=eg_md.hashed_index_row_1;
-    }
-    @hidden
-    table tb_snap_3_select_index {
-        key = {
-            eg_md.snap_epoch: exact;
-        }
-        actions = {
-            snap_3_select_index_hash;
-            snap_3_select_index_cyclic;
-        }
-        size = 2;
-        default_action = snap_3_select_index_hash();
-        const entries = {
-           3 : snap_3_select_index_cyclic();
-        }
-    }
+//    @hidden
+//    action snap_1_select_index_hash(){
+//            eg_md.snap_1_row_0_index=eg_md.cyclic_index;
+//            eg_md.snap_1_row_1_index=eg_md.cyclic_index;
+//    }
+//    @hidden
+//    action snap_1_select_index_cyclic(){
+//            eg_md.snap_1_row_0_index=eg_md.hashed_index_row_0;
+//            eg_md.snap_1_row_1_index=eg_md.hashed_index_row_1;
+//    }
+//    @hidden
+//    table tb_snap_1_select_index {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//        }
+//        actions = {
+//            snap_1_select_index_hash;
+//            snap_1_select_index_cyclic;
+//        }
+//        size = 2;
+//        default_action = snap_1_select_index_hash();
+//        const entries = {
+//           1 : snap_1_select_index_cyclic();
+//        }
+//    }
+//
+//    @hidden
+//    action snap_2_select_index_hash(){
+//            eg_md.snap_2_row_0_index=eg_md.cyclic_index;
+//            eg_md.snap_2_row_1_index=eg_md.cyclic_index;
+//    }
+//    @hidden
+//    action snap_2_select_index_cyclic(){
+//            eg_md.snap_2_row_0_index=eg_md.hashed_index_row_0;
+//            eg_md.snap_2_row_1_index=eg_md.hashed_index_row_1;
+//    }
+//    @hidden
+//    table tb_snap_2_select_index {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//        }
+//        actions = {
+//            snap_2_select_index_hash;
+//            snap_2_select_index_cyclic;
+//        }
+//        size = 2;
+//        default_action = snap_2_select_index_hash();
+//        const entries = {
+//           2 : snap_2_select_index_cyclic();
+//        }
+//    }
+//
+//    @hidden
+//    action snap_3_select_index_hash(){
+//            eg_md.snap_3_row_0_index=eg_md.cyclic_index;
+//            eg_md.snap_3_row_1_index=eg_md.cyclic_index;
+//    }
+//    @hidden
+//    action snap_3_select_index_cyclic(){
+//            eg_md.snap_3_row_0_index=eg_md.hashed_index_row_0;
+//            eg_md.snap_3_row_1_index=eg_md.hashed_index_row_1;
+//    }
+//    @hidden
+//    table tb_snap_3_select_index {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//        }
+//        actions = {
+//            snap_3_select_index_hash;
+//            snap_3_select_index_cyclic;
+//        }
+//        size = 2;
+//        default_action = snap_3_select_index_hash();
+//        const entries = {
+//           3 : snap_3_select_index_cyclic();
+//        }
+//    }
     
     
     //== Prepare snapshot register access actions 
@@ -348,342 +348,343 @@ control ConQuestEgress(
             (3, 2..255) : regexec_snap_0_row_1_read;
         }
     }
-    Register<bit<32>,_>(256) snap_1_row_0;
-    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_0) snap_1_row_0_read = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_1_row_0_read(){
-        eg_md.snap_1_row_0_read=snap_1_row_0_read.execute(eg_md.snap_1_row_0_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_0) snap_1_row_0_inc = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = val + SKETCH_INC;
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_1_row_0_inc(){
-        eg_md.snap_1_row_0_read=snap_1_row_0_inc.execute(eg_md.snap_1_row_0_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_0) snap_1_row_0_clr = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = 0;
-            rv = 0;
-        }
-    };
-    @hidden
-    action regexec_snap_1_row_0_clr(){
-        snap_1_row_0_clr.execute(eg_md.snap_1_row_0_index);
-    }
-    @hidden
-    table tb_snap_1_row_0_rr {
-        key = {
-            eg_md.snap_epoch: exact;
-            eg_md.num_snapshots_to_read: range;
-        }
-        actions = {
-            regexec_snap_1_row_0_read;
-            regexec_snap_1_row_0_inc;
-            regexec_snap_1_row_0_clr;
-            conq_nop;
-        }
-        size = 17;
-        default_action = conq_nop();
-        //round-robin logic
-        const entries = {
-            (1, 0..255) : regexec_snap_1_row_0_clr;
-            (2, 0..255) : regexec_snap_1_row_0_inc;
-            //read only when qlen/T is large enough (otherwise leave 0)
-            (3, 1..255) : regexec_snap_1_row_0_read;
-            (0, 2..255) : regexec_snap_1_row_0_read;
-        }
-    }
-    Register<bit<32>,_>(256) snap_1_row_1;
-    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_1) snap_1_row_1_read = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_1_row_1_read(){
-        eg_md.snap_1_row_1_read=snap_1_row_1_read.execute(eg_md.snap_1_row_1_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_1) snap_1_row_1_inc = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = val + SKETCH_INC;
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_1_row_1_inc(){
-        eg_md.snap_1_row_1_read=snap_1_row_1_inc.execute(eg_md.snap_1_row_1_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_1) snap_1_row_1_clr = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = 0;
-            rv = 0;
-        }
-    };
-    @hidden
-    action regexec_snap_1_row_1_clr(){
-        snap_1_row_1_clr.execute(eg_md.snap_1_row_1_index);
-    }
-    @hidden
-    table tb_snap_1_row_1_rr {
-        key = {
-            eg_md.snap_epoch: exact;
-            eg_md.num_snapshots_to_read: range;
-        }
-        actions = {
-            regexec_snap_1_row_1_read;
-            regexec_snap_1_row_1_inc;
-            regexec_snap_1_row_1_clr;
-            conq_nop;
-        }
-        size = 17;
-        default_action = conq_nop();
-        //round-robin logic
-        const entries = {
-            (1, 0..255) : regexec_snap_1_row_1_clr;
-            (2, 0..255) : regexec_snap_1_row_1_inc;
-            //read only when qlen/T is large enough (otherwise leave 0)
-            (3, 1..255) : regexec_snap_1_row_1_read;
-            (0, 2..255) : regexec_snap_1_row_1_read;
-        }
-    }
-    Register<bit<32>,_>(256) snap_2_row_0;
-    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_0) snap_2_row_0_read = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_2_row_0_read(){
-        eg_md.snap_2_row_0_read=snap_2_row_0_read.execute(eg_md.snap_2_row_0_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_0) snap_2_row_0_inc = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = val + SKETCH_INC;
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_2_row_0_inc(){
-        eg_md.snap_2_row_0_read=snap_2_row_0_inc.execute(eg_md.snap_2_row_0_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_0) snap_2_row_0_clr = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = 0;
-            rv = 0;
-        }
-    };
-    @hidden
-    action regexec_snap_2_row_0_clr(){
-        snap_2_row_0_clr.execute(eg_md.snap_2_row_0_index);
-    }
-    @hidden
-    table tb_snap_2_row_0_rr {
-        key = {
-            eg_md.snap_epoch: exact;
-            eg_md.num_snapshots_to_read: range;
-        }
-        actions = {
-            regexec_snap_2_row_0_read;
-            regexec_snap_2_row_0_inc;
-            regexec_snap_2_row_0_clr;
-            conq_nop;
-        }
-        size = 17;
-        default_action = conq_nop();
-        //round-robin logic
-        const entries = {
-            (2, 0..255) : regexec_snap_2_row_0_clr;
-            (3, 0..255) : regexec_snap_2_row_0_inc;
-            //read only when qlen/T is large enough (otherwise leave 0)
-            (0, 1..255) : regexec_snap_2_row_0_read;
-            (1, 2..255) : regexec_snap_2_row_0_read;
-        }
-    }
-    Register<bit<32>,_>(256) snap_2_row_1;
-    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_1) snap_2_row_1_read = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_2_row_1_read(){
-        eg_md.snap_2_row_1_read=snap_2_row_1_read.execute(eg_md.snap_2_row_1_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_1) snap_2_row_1_inc = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = val + SKETCH_INC;
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_2_row_1_inc(){
-        eg_md.snap_2_row_1_read=snap_2_row_1_inc.execute(eg_md.snap_2_row_1_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_1) snap_2_row_1_clr = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = 0;
-            rv = 0;
-        }
-    };
-    @hidden
-    action regexec_snap_2_row_1_clr(){
-        snap_2_row_1_clr.execute(eg_md.snap_2_row_1_index);
-    }
-    @hidden
-    table tb_snap_2_row_1_rr {
-        key = {
-            eg_md.snap_epoch: exact;
-            eg_md.num_snapshots_to_read: range;
-        }
-        actions = {
-            regexec_snap_2_row_1_read;
-            regexec_snap_2_row_1_inc;
-            regexec_snap_2_row_1_clr;
-            conq_nop;
-        }
-        size = 17;
-        default_action = conq_nop();
-        //round-robin logic
-        const entries = {
-            (2, 0..255) : regexec_snap_2_row_1_clr;
-            (3, 0..255) : regexec_snap_2_row_1_inc;
-            //read only when qlen/T is large enough (otherwise leave 0)
-            (0, 1..255) : regexec_snap_2_row_1_read;
-            (1, 2..255) : regexec_snap_2_row_1_read;
-        }
-    }
-    Register<bit<32>,_>(256) snap_3_row_0;
-    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_0) snap_3_row_0_read = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_3_row_0_read(){
-        eg_md.snap_3_row_0_read=snap_3_row_0_read.execute(eg_md.snap_3_row_0_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_0) snap_3_row_0_inc = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = val + SKETCH_INC;
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_3_row_0_inc(){
-        eg_md.snap_3_row_0_read=snap_3_row_0_inc.execute(eg_md.snap_3_row_0_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_0) snap_3_row_0_clr = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = 0;
-            rv = 0;
-        }
-    };
-    @hidden
-    action regexec_snap_3_row_0_clr(){
-        snap_3_row_0_clr.execute(eg_md.snap_3_row_0_index);
-    }
-    @hidden
-    table tb_snap_3_row_0_rr {
-        key = {
-            eg_md.snap_epoch: exact;
-            eg_md.num_snapshots_to_read: range;
-        }
-        actions = {
-            regexec_snap_3_row_0_read;
-            regexec_snap_3_row_0_inc;
-            regexec_snap_3_row_0_clr;
-            conq_nop;
-        }
-        size = 17;
-        default_action = conq_nop();
-        //round-robin logic
-        const entries = {
-            (3, 0..255) : regexec_snap_3_row_0_clr;
-            (0, 0..255) : regexec_snap_3_row_0_inc;
-            //read only when qlen/T is large enough (otherwise leave 0)
-            (1, 1..255) : regexec_snap_3_row_0_read;
-            (2, 2..255) : regexec_snap_3_row_0_read;
-        }
-    }
-    Register<bit<32>,_>(256) snap_3_row_1;
-    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_1) snap_3_row_1_read = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_3_row_1_read(){
-        eg_md.snap_3_row_1_read=snap_3_row_1_read.execute(eg_md.snap_3_row_1_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_1) snap_3_row_1_inc = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = val + SKETCH_INC;
-            rv = val;
-        }
-    };
-    @hidden
-    action regexec_snap_3_row_1_inc(){
-        eg_md.snap_3_row_1_read=snap_3_row_1_inc.execute(eg_md.snap_3_row_1_index);
-    }
-    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_1) snap_3_row_1_clr = {
-        void apply(inout bit<32> val, out bit<32> rv) {
-            val = 0;
-            rv = 0;
-        }
-    };
-    @hidden
-    action regexec_snap_3_row_1_clr(){
-        snap_3_row_1_clr.execute(eg_md.snap_3_row_1_index);
-    }
-    @hidden
-    table tb_snap_3_row_1_rr {
-        key = {
-            eg_md.snap_epoch: exact;
-            eg_md.num_snapshots_to_read: range;
-        }
-        actions = {
-            regexec_snap_3_row_1_read;
-            regexec_snap_3_row_1_inc;
-            regexec_snap_3_row_1_clr;
-            conq_nop;
-        }
-        size = 17;
-        default_action = conq_nop();
-        //round-robin logic
-        const entries = {
-            (3, 0..255) : regexec_snap_3_row_1_clr;
-            (0, 0..255) : regexec_snap_3_row_1_inc;
-            //read only when qlen/T is large enough (otherwise leave 0)
-            (1, 1..255) : regexec_snap_3_row_1_read;
-            (2, 2..255) : regexec_snap_3_row_1_read;
-        }
-    }
+//    Register<bit<32>,_>(256) snap_1_row_0;
+//    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_0) snap_1_row_0_read = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_1_row_0_read(){
+//        eg_md.snap_1_row_0_read=snap_1_row_0_read.execute(eg_md.snap_1_row_0_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_0) snap_1_row_0_inc = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = val + SKETCH_INC;
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_1_row_0_inc(){
+//        eg_md.snap_1_row_0_read=snap_1_row_0_inc.execute(eg_md.snap_1_row_0_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_0) snap_1_row_0_clr = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = 0;
+//            rv = 0;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_1_row_0_clr(){
+//        snap_1_row_0_clr.execute(eg_md.snap_1_row_0_index);
+//    }
+//    @hidden
+//    table tb_snap_1_row_0_rr {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//            eg_md.num_snapshots_to_read: range;
+//        }
+//        actions = {
+//            regexec_snap_1_row_0_read;
+//            regexec_snap_1_row_0_inc;
+//            regexec_snap_1_row_0_clr;
+//            conq_nop;
+//        }
+//        size = 17;
+//        default_action = conq_nop();
+//        //round-robin logic
+//        const entries = {
+//            (1, 0..255) : regexec_snap_1_row_0_clr;
+//            (2, 0..255) : regexec_snap_1_row_0_inc;
+//            //read only when qlen/T is large enough (otherwise leave 0)
+//            (3, 1..255) : regexec_snap_1_row_0_read;
+//            (0, 2..255) : regexec_snap_1_row_0_read;
+//        }
+//    }
+//    Register<bit<32>,_>(256) snap_1_row_1;
+//    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_1) snap_1_row_1_read = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_1_row_1_read(){
+//        eg_md.snap_1_row_1_read=snap_1_row_1_read.execute(eg_md.snap_1_row_1_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_1) snap_1_row_1_inc = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = val + SKETCH_INC;
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_1_row_1_inc(){
+//        eg_md.snap_1_row_1_read=snap_1_row_1_inc.execute(eg_md.snap_1_row_1_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_1_row_1) snap_1_row_1_clr = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = 0;
+//            rv = 0;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_1_row_1_clr(){
+//        snap_1_row_1_clr.execute(eg_md.snap_1_row_1_index);
+//    }
+//    @hidden
+//    table tb_snap_1_row_1_rr {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//            eg_md.num_snapshots_to_read: range;
+//        }
+//        actions = {
+//            regexec_snap_1_row_1_read;
+//            regexec_snap_1_row_1_inc;
+//            regexec_snap_1_row_1_clr;
+//            conq_nop;
+//        }
+//        size = 17;
+//        default_action = conq_nop();
+//        //round-robin logic
+//        const entries = {
+//            (1, 0..255) : regexec_snap_1_row_1_clr;
+//            (2, 0..255) : regexec_snap_1_row_1_inc;
+//            //read only when qlen/T is large enough (otherwise leave 0)
+//            (3, 1..255) : regexec_snap_1_row_1_read;
+//            (0, 2..255) : regexec_snap_1_row_1_read;
+//        }
+//    }
+//    Register<bit<32>,_>(256) snap_2_row_0;
+//    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_0) snap_2_row_0_read = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_2_row_0_read(){
+//        eg_md.snap_2_row_0_read=snap_2_row_0_read.execute(eg_md.snap_2_row_0_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_0) snap_2_row_0_inc = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = val + SKETCH_INC;
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_2_row_0_inc(){
+//        eg_md.snap_2_row_0_read=snap_2_row_0_inc.execute(eg_md.snap_2_row_0_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_0) snap_2_row_0_clr = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = 0;
+//            rv = 0;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_2_row_0_clr(){
+//        snap_2_row_0_clr.execute(eg_md.snap_2_row_0_index);
+//    }
+//    @hidden
+//    table tb_snap_2_row_0_rr {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//            eg_md.num_snapshots_to_read: range;
+//        }
+//        actions = {
+//            regexec_snap_2_row_0_read;
+//            regexec_snap_2_row_0_inc;
+//            regexec_snap_2_row_0_clr;
+//            conq_nop;
+//        }
+//        size = 17;
+//        default_action = conq_nop();
+//        //round-robin logic
+//        const entries = {
+//            (2, 0..255) : regexec_snap_2_row_0_clr;
+//            (3, 0..255) : regexec_snap_2_row_0_inc;
+//            //read only when qlen/T is large enough (otherwise leave 0)
+//            (0, 1..255) : regexec_snap_2_row_0_read;
+//            (1, 2..255) : regexec_snap_2_row_0_read;
+//        }
+//    }
+//    Register<bit<32>,_>(256) snap_2_row_1;
+//    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_1) snap_2_row_1_read = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_2_row_1_read(){
+//        eg_md.snap_2_row_1_read=snap_2_row_1_read.execute(eg_md.snap_2_row_1_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_1) snap_2_row_1_inc = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = val + SKETCH_INC;
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_2_row_1_inc(){
+//        eg_md.snap_2_row_1_read=snap_2_row_1_inc.execute(eg_md.snap_2_row_1_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_2_row_1) snap_2_row_1_clr = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = 0;
+//            rv = 0;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_2_row_1_clr(){
+//        snap_2_row_1_clr.execute(eg_md.snap_2_row_1_index);
+//    }
+//    @hidden
+//    table tb_snap_2_row_1_rr {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//            eg_md.num_snapshots_to_read: range;
+//        }
+//        actions = {
+//            regexec_snap_2_row_1_read;
+//            regexec_snap_2_row_1_inc;
+//            regexec_snap_2_row_1_clr;
+//            conq_nop;
+//        }
+//        size = 17;
+//        default_action = conq_nop();
+//        //round-robin logic
+//        const entries = {
+//            (2, 0..255) : regexec_snap_2_row_1_clr;
+//            (3, 0..255) : regexec_snap_2_row_1_inc;
+//            //read only when qlen/T is large enough (otherwise leave 0)
+//            (0, 1..255) : regexec_snap_2_row_1_read;
+//            (1, 2..255) : regexec_snap_2_row_1_read;
+//        }
+//    }
+//    Register<bit<32>,_>(256) snap_3_row_0;
+//    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_0) snap_3_row_0_read = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_3_row_0_read(){
+//        eg_md.snap_3_row_0_read=snap_3_row_0_read.execute(eg_md.snap_3_row_0_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_0) snap_3_row_0_inc = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = val + SKETCH_INC;
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_3_row_0_inc(){
+//        eg_md.snap_3_row_0_read=snap_3_row_0_inc.execute(eg_md.snap_3_row_0_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_0) snap_3_row_0_clr = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = 0;
+//            rv = 0;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_3_row_0_clr(){
+//        snap_3_row_0_clr.execute(eg_md.snap_3_row_0_index);
+//    }
+//    @hidden
+//    table tb_snap_3_row_0_rr {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//            eg_md.num_snapshots_to_read: range;
+//        }
+//        actions = {
+//            regexec_snap_3_row_0_read;
+//            regexec_snap_3_row_0_inc;
+//            regexec_snap_3_row_0_clr;
+//            conq_nop;
+//        }
+//        size = 17;
+//        default_action = conq_nop();
+//        //round-robin logic
+//        const entries = {
+//            (3, 0..255) : regexec_snap_3_row_0_clr;
+//            (0, 0..255) : regexec_snap_3_row_0_inc;
+//            //read only when qlen/T is large enough (otherwise leave 0)
+//            (1, 1..255) : regexec_snap_3_row_0_read;
+//            (2, 2..255) : regexec_snap_3_row_0_read;
+//        }
+//    }
+//    Register<bit<32>,_>(256) snap_3_row_1;
+//    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_1) snap_3_row_1_read = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_3_row_1_read(){
+//        eg_md.snap_3_row_1_read=snap_3_row_1_read.execute(eg_md.snap_3_row_1_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_1) snap_3_row_1_inc = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = val + SKETCH_INC;
+//            rv = val;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_3_row_1_inc(){
+//        eg_md.snap_3_row_1_read=snap_3_row_1_inc.execute(eg_md.snap_3_row_1_index);
+//    }
+//    RegisterAction<bit<32>, _, bit<32>> (snap_3_row_1) snap_3_row_1_clr = {
+//        void apply(inout bit<32> val, out bit<32> rv) {
+//            val = 0;
+//            rv = 0;
+//        }
+//    };
+//    @hidden
+//    action regexec_snap_3_row_1_clr(){
+//        snap_3_row_1_clr.execute(eg_md.snap_3_row_1_index);
+//    }
+//    @hidden
+//    table tb_snap_3_row_1_rr {
+//        key = {
+//            eg_md.snap_epoch: exact;
+//            eg_md.num_snapshots_to_read: range;
+//        }
+//        actions = {
+//            regexec_snap_3_row_1_read;
+//            regexec_snap_3_row_1_inc;
+//            regexec_snap_3_row_1_clr;
+//            conq_nop;
+//        }
+//        size = 17;
+//        default_action = conq_nop();
+//        //round-robin logic
+//        const entries = {
+//            (3, 0..255) : regexec_snap_3_row_1_clr;
+//            (0, 0..255) : regexec_snap_3_row_1_inc;
+//            //read only when qlen/T is large enough (otherwise leave 0)
+//            (1, 1..255) : regexec_snap_3_row_1_read;
+//            (2, 2..255) : regexec_snap_3_row_1_read;
+//        }
+//    }
   
     
     //== Folding sums, which can't be written inline 
     @hidden
     action calc_sum_0_l0(){
-        eg_md.snap_0_read_min_l1 = 
-        eg_md.snap_0_read_min_l0 + eg_md.snap_1_read_min_l0;
+        eg_md.snap_0_read_min_l2 = eg_md.snap_0_read_min_l0;
+        //eg_md.snap_0_read_min_l1 = 
+        //eg_md.snap_0_read_min_l0 + eg_md.snap_1_read_min_l0;
     }
-    @hidden
-    action calc_sum_2_l0(){
-        eg_md.snap_2_read_min_l1 = 
-        eg_md.snap_2_read_min_l0 + eg_md.snap_3_read_min_l0;
-    }
-    @hidden
-    action calc_sum_0_l1(){
-        eg_md.snap_0_read_min_l2 = 
-        eg_md.snap_0_read_min_l1 + eg_md.snap_2_read_min_l1;
-    }
+//    @hidden
+//    action calc_sum_2_l0(){
+//        eg_md.snap_2_read_min_l1 = 
+//        eg_md.snap_2_read_min_l0 + eg_md.snap_3_read_min_l0;
+//    }
+//    @hidden
+//    action calc_sum_0_l1(){
+//        eg_md.snap_0_read_min_l2 = 
+//        eg_md.snap_0_read_min_l1 + eg_md.snap_2_read_min_l1;
+//    }
 
  
 	//dedup reports 
@@ -822,39 +823,40 @@ control ConQuestEgress(
         
         // Select index for snapshots. Cyclic for cleaning, hashed for read/inc
         tb_snap_0_select_index.apply();
-        tb_snap_1_select_index.apply();
-        tb_snap_2_select_index.apply();
-        tb_snap_3_select_index.apply();
+        //tb_snap_1_select_index.apply();
+        //tb_snap_2_select_index.apply();
+        //tb_snap_3_select_index.apply();
    
         
         // Run the snapshots! Round-robin clean, inc, read
         tb_snap_0_row_0_rr.apply();
         tb_snap_0_row_1_rr.apply();
-        tb_snap_1_row_0_rr.apply();
-        tb_snap_1_row_1_rr.apply();
-        tb_snap_2_row_0_rr.apply();
-        tb_snap_2_row_1_rr.apply();
-        tb_snap_3_row_0_rr.apply();
-        tb_snap_3_row_1_rr.apply();
+        //tb_snap_1_row_0_rr.apply();
+        //tb_snap_1_row_1_rr.apply();
+        //tb_snap_2_row_0_rr.apply();
+        //tb_snap_2_row_1_rr.apply();
+        //tb_snap_3_row_0_rr.apply();
+        //tb_snap_3_row_1_rr.apply();
    
         
         // Calc min across rows (as in count-"min" sketch)
         eg_md.snap_0_read_min_l0=min(eg_md.snap_0_row_0_read,eg_md.snap_0_row_1_read);
-        eg_md.snap_1_read_min_l0=min(eg_md.snap_1_row_0_read,eg_md.snap_1_row_1_read);
-        eg_md.snap_2_read_min_l0=min(eg_md.snap_2_row_0_read,eg_md.snap_2_row_1_read);
-        eg_md.snap_3_read_min_l0=min(eg_md.snap_3_row_0_read,eg_md.snap_3_row_1_read);
+        //eg_md.snap_1_read_min_l0=min(eg_md.snap_1_row_0_read,eg_md.snap_1_row_1_read);
+        //eg_md.snap_2_read_min_l0=min(eg_md.snap_2_row_0_read,eg_md.snap_2_row_1_read);
+        //eg_md.snap_3_read_min_l0=min(eg_md.snap_3_row_0_read,eg_md.snap_3_row_1_read);
    
         
         // Sum all reads together, using log(CQ_H) layers.
         calc_sum_0_l0();
-        calc_sum_2_l0();
-        calc_sum_0_l1();
+        //calc_sum_2_l0();
+        //calc_sum_0_l1();
   
         prep_timestamp();
         // bit<32> snap_read_sum=eg_md.snap_0_read_min_l2;
         
         // With flow size in queue, can check for bursty flow and add AQM.
         tb_per_flow_action.apply();
+        //trigger_report();
         //report_generator.apply(); //joon
         if (eg_md.send_conq_report && eg_md.dedup_is_new==1) {
             report_generator.apply();
